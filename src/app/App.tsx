@@ -2,18 +2,23 @@ import { ChangeEvent, useState } from "react";
 
 // Models
 import { BackendErrorType } from '../shared/models/BackendErrorType';
+import { CheckResponseType } from 'shared/models/CheckResponseType';
 
 // Components
 import BackendError from './components/BackendError';
 
 // Styles
 import "./App.css";
-import { CheckResponseType } from 'shared/models/CheckResponseType';
+import AnimatedSolution from './components/AnimatedSolution';
 
 function App() {
 
-  const [result, setResult] = useState<CheckResponseType>()
+  const [solution, setSolution] = useState<CheckResponseType>({
+    numberOverlapping: 0,
+    charactersOverlapping: ''
+  })
   const [searchTerm, setSearchTerm] = useState('')
+  const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined)
   const [text, setText] = useState('')
   const [error, setError] = useState<BackendErrorType>()
 
@@ -21,6 +26,7 @@ function App() {
     let response: Response
     const data = {searchTerm, text}
     try {
+      setIsLoading(true)
       response = await fetch("http://localhost:8000/check", { 
         method: "POST",
         headers: {
@@ -29,7 +35,17 @@ function App() {
         cache: 'no-cache',
         body: JSON.stringify(data)
       })
-      await response.json().then((data: CheckResponseType) => setResult(data))
+      await response.json().then((data: CheckResponseType) => {
+        const newData = {
+          numberOverlapping: data.numberOverlapping === 0 ? 0 : data.numberOverlapping,
+          charactersOverlapping: data.charactersOverlapping === '' ? 'Nothing was found' : data.charactersOverlapping
+        }
+        setSolution(newData)
+        // Comment out for prefer performance, instead of animation
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 1000)
+      })
     } catch (error) {
       setError(error as unknown as BackendErrorType)
     }
@@ -42,16 +58,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Match words and sentences!</h1>
-        <input type="text" placeholder='Search sentence or words' className='App-textfield' onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}></input>
+        <h1>Find matches in words and sentences</h1>
       </header>
       <main className='App-main'>
-        <textarea placeholder="Write here your text which should be check by overlaps" className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}></textarea>
-        <button onClick={() => handleRequest(searchTerm, text)}>Find matches</button>
-        <p style={{
-          color: 'white'
-        }}>{JSON.stringify(result)}</p>
+        <textarea placeholder='Write some text' className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setSearchTerm(e.target.value)}></textarea>
+        <textarea placeholder="Write some text" className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}></textarea>
       </main>
+      <footer className='App-footer'>
+        {
+          <AnimatedSolution solution={solution} isLoading={isLoading}/>
+        }
+        <button onClick={() => handleRequest(searchTerm, text)}>Find matches</button>
+      </footer>
     </div>
   );
 }
