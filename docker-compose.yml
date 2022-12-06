@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  nodeserver:
+    build:
+      context: .
+      dockerfile: ./src/api/Dockerfile.dev
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./src/api:/app/src/api:ro
+    env_file:
+      - ./src/api/.env
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/app/src:ro

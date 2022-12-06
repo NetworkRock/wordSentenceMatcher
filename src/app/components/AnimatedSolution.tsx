@@ -1,6 +1,6 @@
 // Models
 import { useEffect, useState } from "react";
-import { CheckResponseType } from "shared/models/CheckResponseType";
+import { CheckResponseType } from "src/app/models/CheckResponseType";
 
 // Styles
 import "./AnimatedSolution.css";

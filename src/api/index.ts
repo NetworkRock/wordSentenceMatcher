@@ -3,8 +3,10 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cors from "cors";
 
-// Models
-import { CheckResponseType } from "../shared/models/CheckResponseType";
+type CheckResponseType = { 
+  numberOverlapping: number,
+  charactersOverlapping: string 
+};
 
 // load the environment variables from the .env file
 dotenv.config({

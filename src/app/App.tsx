@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
 
 // Models
-import { BackendErrorType } from '../shared/models/BackendErrorType';
-import { CheckResponseType } from 'shared/models/CheckResponseType';
+import { BackendErrorType } from 'src/app/models/BackendErrorType';
+import { CheckResponseType } from 'src/app/models/CheckResponseType';
 
 // Components
 import BackendError from './components/BackendError';
