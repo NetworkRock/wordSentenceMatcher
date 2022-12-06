@@ -37,7 +37,9 @@ const AnimatedSolution = ({
             <p style={{ textAlign: "left" }}>Overlapping characters</p>
             <section className={animationStart ? "animation" : ""}>
               <div className="charsOverlapping">
-                <textarea className="charsoverlapping-textarea" value={charactersOverlapping} />
+                <textarea 
+                aria-label='solutionTextbox'
+                className="charsoverlapping-textarea" value={charactersOverlapping} />
               </div>
             </section>
           </div>

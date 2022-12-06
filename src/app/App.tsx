@@ -11,6 +11,18 @@ import BackendError from './components/BackendError';
 import "./App.css";
 import AnimatedSolution from './components/AnimatedSolution';
 
+
+
+const checkLCS = async (data: any) => await fetch("http://localhost:8000/check", { 
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  cache: 'no-cache',
+  body: JSON.stringify(data)
+})
+
+
 function App() {
 
   const [solution, setSolution] = useState<CheckResponseType>({
@@ -27,14 +39,7 @@ function App() {
     const data = {searchTerm, text}
     try {
       setIsLoading(true)
-      response = await fetch("http://localhost:8000/check", { 
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        cache: 'no-cache',
-        body: JSON.stringify(data)
-      })
+      response = await checkLCS(data)
       await response.json().then((data: CheckResponseType) => {
         const newData = {
           numberOverlapping: data.numberOverlapping === 0 ? 0 : data.numberOverlapping,
@@ -61,8 +66,12 @@ function App() {
         <h1>Find matches in words and sentences</h1>
       </header>
       <main className='App-main'>
-        <textarea placeholder='Write some text' className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setSearchTerm(e.target.value)}></textarea>
-        <textarea placeholder="Write some text" className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}></textarea>
+        <textarea 
+        aria-label='searchTextbox'
+        placeholder='Write some text' className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setSearchTerm(e.target.value)}></textarea>
+        <textarea 
+        aria-label='text'
+        placeholder="Write some text" className='App-textarea' onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}></textarea>
       </main>
       <footer className='App-footer'>
         {
