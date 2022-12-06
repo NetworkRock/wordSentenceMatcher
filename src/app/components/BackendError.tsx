@@ -1,5 +1,5 @@
 // Models
-import { BackendErrorType } from 'app/models/BackendErrorType';
+import { BackendErrorType } from 'shared/models/BackendErrorType';
 
 // Styles
 import "./BackendError.css";
