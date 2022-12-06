@@ -15,18 +15,13 @@ const AnimatedSolution = ({
   solution: { numberOverlapping, charactersOverlapping },
   isLoading,
 }: AnimatedSolutionType) => {
-  const [numberAnimation, setNumberAnimation] = useState(false);
-  const [charactersAnimation, setCharactersAnimation] = useState(false);
+  const [animationStart, setStartAnimation] = useState(false);
 
   useEffect(() => {
     if (!isLoading) {
-      setCharactersAnimation(true);
-      setTimeout(() => {
-        setNumberAnimation(true);
-      }, 700);
+      setStartAnimation(true);
     } else {
-      setCharactersAnimation(false);
-      setNumberAnimation(false);
+      setStartAnimation(false)
     }
   }, [isLoading]);
 
@@ -39,16 +34,16 @@ const AnimatedSolution = ({
       ) : isLoading === false ? (
         <>
           <div className="animation-container">
-            <p style={{ textAlign: "start" }}>Overlapping characters</p>
-            <section className={charactersAnimation ? "animation" : ""}>
+            <p style={{ textAlign: "left" }}>Overlapping characters</p>
+            <section className={animationStart ? "animation" : ""}>
               <div className="charsOverlapping">
-                <b>{charactersOverlapping}</b>
+                <textarea className="charsoverlapping-textarea" value={charactersOverlapping} />
               </div>
             </section>
           </div>
           <div className="animation-container">
-            <p>Length of overlapping</p>
-            <section className={numberAnimation ? "animation" : ""}>
+            <p style={{ textAlign: "left" }}>Length</p>
+            <section className={animationStart ? "animation" : ""}>
               <div className="lengthOverlapping">
                 <b>{numberOverlapping}</b>
               </div>
