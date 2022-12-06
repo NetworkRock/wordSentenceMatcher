@@ -76,8 +76,10 @@
 @keyframes text-area-resize {
   0% {
     height: 10rem;
+    margin-top: 0rem;
   }
   100% {
-    height: 30rem;
+    height: 40rem;
+    margin-top: -30rem;
   }
 }
