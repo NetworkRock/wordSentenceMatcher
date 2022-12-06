@@ -1,15 +1,4 @@
-
-
-body {
-  font-family:'Roboto';
-  background-color: #131417;  
-}
-p {
-  text-shadow: 0 0 7px rgba(255,255,255,.3), 0 0 3px rgba(255,255,255,.3);
-}
 .container {
-  color: #e5e5e5;
-  text-transform: uppercase;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -18,9 +7,14 @@ p {
   justify-content: space-evenly;
 }
 
+.animation-container {
+  display: "flex";
+  flex-direction: "column";
+}
+
 .animation {
   display: flex;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .animation > div {
@@ -37,7 +31,7 @@ p {
 .charsOverlapping {
   display: none;
   border-radius: 1rem;
-  width: 60vw;
+  width: 56vw;
   font-size: 1rem;
   align-items: flex-start;
   justify-content: flex-start;
@@ -46,8 +40,8 @@ p {
 .lengthOverlapping {
   display: none;
   border-radius: 1rem;
-  width: 9vw;
-  font-size: 5rem;
+  width: 10vw;
+  font-size: 4.5rem;
   align-items: center;
   justify-content: center;
 }
