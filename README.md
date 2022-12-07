@@ -12,6 +12,8 @@ This little website helps to find the LCS (longest common sequense of two string
 
 ### For starting the app
 
+1. Go inside the wordSentenceMatcher folder
+2. Run
 `docker-compose up --build`
 
 The --build flag will force to build it again. If you don't want that remove it.
