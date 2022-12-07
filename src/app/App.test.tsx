@@ -1,83 +1,94 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event'
-import { act, render, screen, waitFor } from '@testing-library/react';
-import App from './App'
+import React from "react";
+import userEvent from "@testing-library/user-event";
+import { act, render, screen, waitFor } from "@testing-library/react";
+import App from "./App";
+import checkLCS from "src/api/checkLCS";
 
 // Part 1
 const unmockedFetch = global.fetch;
 
-
 // Part 3
 afterEach(() => {
-	global.fetch = unmockedFetch;
+  global.fetch = unmockedFetch;
 });
 
-
-describe('App', () => {
-  const user = userEvent.setup()
-  test('renders the headerText', () => {
+describe("App", () => {
+  test("renders the headerText", () => {
     render(<App />);
     const headerText = screen.getByText(/Find matches in words and sentences/i);
     expect(headerText).toBeInTheDocument();
   });
-  
-  
-  test('renders both textareas', () => {
+
+  test("renders both textareas", () => {
     render(<App />);
-    const firstTextarea = screen.getAllByRole('textbox')[1]
-    const secondTextarea = screen.getAllByRole('textbox')[0]
+    const firstTextarea = screen.getAllByRole("textbox")[1];
+    const secondTextarea = screen.getAllByRole("textbox")[0];
     expect(firstTextarea).toBeInTheDocument();
     expect(secondTextarea).toBeInTheDocument();
-  })
-  
-  test('change text in both textareas', async () => {
-    global.fetch = () =>
-		Promise.resolve({
-			json: () => Promise.resolve({
-        numberOverlapping: 3,
-        charactersOverlapping: "ice",
-      })
-		});
-    render(<App />);
-    const firstTextarea = screen.getByRole('textbox', {name: 'searchTextbox'})
-    const secondTextarea = screen.getByRole('textbox', {name: 'text'})
-    const findMatchBtn = screen.getByRole('button', {name: 'Find matches'})
-    await act(async () => {
-      await user.type(firstTextarea, 'device')
-      await user.type(secondTextarea, 'ice')
-      await user.click(findMatchBtn)
-    })
+  });
 
-    let solutionTextbox
+  test("change text in both textareas", async () => {
+    global.fetch = () =>
+    // @ts-ignore
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            numberOverlapping: 3,
+            charactersOverlapping: "ice",
+          }),
+      });
+    render(<App />);
+    const firstTextarea = screen.getByRole("textbox", {
+      name: "searchTextbox",
+    });
+    const secondTextarea = screen.getByRole("textbox", { name: "text" });
+    const findMatchBtn = screen.getByRole("button", { name: "Find matches" });
+    await act(async () => {
+      await userEvent.type(firstTextarea, "device");
+      await userEvent.type(secondTextarea, "ice");
+      await userEvent.click(findMatchBtn);
+    });
+
+    let solutionTextbox;
     await waitFor(() => {
-      solutionTextbox = screen.getByRole('textbox', {name: 'solutionTextbox'})
+      solutionTextbox = screen.getByRole("textbox", {
+        name: "solutionTextbox",
+      });
       expect(solutionTextbox).toBeInTheDocument();
-    })
-    expect(solutionTextbox).toHaveValue('ice');
-    expect(firstTextarea).toHaveValue('device');
-    expect(secondTextarea).toHaveValue('ice');
-  })
+    });
+    expect(solutionTextbox).toHaveValue("ice");
+    expect(firstTextarea).toHaveValue("device");
+    expect(secondTextarea).toHaveValue("ice");
+  });
 
-  test('show backend error on failure', async () => {
+  test("show backend error on failure", async () => {
     global.fetch = () =>
-		Promise.resolve({
-			json: () => Promise.reject({
-        message: 'custom error',
-      })
-		});
+    // @ts-ignore
+      Promise.resolve({
+        json: () =>
+          Promise.reject({
+            message: "custom error",
+          }),
+      });
     render(<App />);
-    const findMatchBtn = screen.getByRole('button', {name: 'Find matches'})
+    const findMatchBtn = screen.getByRole("button", { name: "Find matches" });
     await act(async () => {
-      await user.click(findMatchBtn)
-    })
+      await userEvent.click(findMatchBtn);
+    });
 
-    let errorMessage
+    let errorMessage;
     await waitFor(() => {
-      errorMessage = screen.getByText('custom error')
+      errorMessage = screen.getByText("custom error");
       expect(errorMessage).toBeInTheDocument();
-    })
-    const errorTitle = screen.getByText('OOOOPPPPPS...')
+    });
+    const errorTitle = screen.getByText("OOOOPPPPPS...");
     expect(errorTitle).toBeInTheDocument();
-  })
+  });
 
-})
+  test("check the longest common subsequence of two strings", () => {
+    expect(checkLCS("rhinoceros", "orange")).toStrictEqual({
+      numberOverlapping: 3,
+      charactersOverlapping: "rne",
+    });
+  });
+});
