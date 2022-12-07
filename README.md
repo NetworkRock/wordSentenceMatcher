@@ -1,6 +1,6 @@
 # Words and sentences matcher
 
-This little website helps to find the LCS (longest common sequense of two strings
+This little website helps to find the LCS (longest common sequense of two strings)
 
 ### First things first...
 
