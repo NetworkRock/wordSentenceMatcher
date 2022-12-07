@@ -1,0 +1,85 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.animation-container {
+  display: "flex";
+  flex-direction: "column";
+}
+
+.animation {
+  display: flex;
+}
+
+.animation > div {
+  display: flex;
+  height: 10rem;
+  background-color:#4e9574;
+}
+
+.animation div:first-child {
+  animation: text-animation 0.5s ease-in-out;
+}
+
+.charsOverlapping {
+  display: none;
+  border-radius: 1rem;
+  width: 62vw;
+  font-size: 1.2rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.charsoverlapping-textarea {
+  background-color:#4e9574;
+  color: rgb(255, 255, 255);
+  border-radius: 0.4rem;
+  width: 100vw;
+  font-family: 'Roboto';
+  font-size: 1.1rem;
+  height: 8rem;
+  font-weight: 200;
+  resize: none;
+  padding: 1vw;
+}
+
+.charsoverlapping-textarea:hover {
+  animation: text-area-resize 2s ease-in;
+  animation-fill-mode: forwards;
+}
+
+.lengthOverlapping {
+  display: none;
+  border-radius: 1rem;
+  width: 12vw;
+  font-size: 4.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes text-animation {
+  0% {
+    opacity: 0;
+    margin-top: 3rem;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0rem;
+  }
+}
+
+@keyframes text-area-resize {
+  0% {
+    height: 10rem;
+    margin-top: 0rem;
+  }
+  100% {
+    height: 40rem;
+    margin-top: -30rem;
+  }
+}
